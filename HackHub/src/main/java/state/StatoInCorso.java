@@ -9,14 +9,16 @@ public class StatoInCorso implements HackathonState {
         throw new RuntimeException("ERRORE: Iscrizioni chiuse! L'evento è in corso.");
     }
 
+
     @Override
-    public void aggiungiMentore(Hackathon h, Utente u) {
-        System.out.println("LOG: Mentore aggiunto .");
-        h.getMentori().add(u);
+    public void nextState(Hackathon h) {
+        h.setStato(new StatoInValutazione());
+        System.out.println("STATO CAMBIATO: Da In Corso -> In Valutazione");
+
     }
 
     @Override
-    public void chiudiIscrizioni(Hackathon h) {
-        System.out.println("LOG: Le iscrizioni sono già chiuse.");
+    public String getNomeStato() {
+        return "In corso";
     }
 }

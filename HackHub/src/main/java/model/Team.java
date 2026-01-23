@@ -13,6 +13,7 @@ public class Team {
         this.nome = nome;
         this.leader = leader;
         this.membri.add(leader);
+        leader.setTeam(this);
     }
 
 
