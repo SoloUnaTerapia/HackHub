@@ -20,4 +20,9 @@ public class StatoInValutazione implements HackathonState{
     public String getNomeStato() {
         return "in Valutazione";
     }
+
+    @Override
+    public void uploadSottomissione(Hackathon h) {
+        throw new RuntimeException("ERRORE: Non puoi più inviare la sottomissione, l'hackathon  è in fase di valutazione");
+    }
 }

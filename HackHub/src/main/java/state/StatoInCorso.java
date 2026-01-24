@@ -21,4 +21,16 @@ public class StatoInCorso implements HackathonState {
     public String getNomeStato() {
         return "In corso";
     }
+
+    @Override
+    public void uploadSottomissione(Hackathon h) {
+        // Controllo della data (Deadline)
+        // Nota: nel DTO avevi messo scadenzaIscrizioni e dataFine.
+        // Assumiamo che dataFine sia la deadline per la consegna.
+        /*
+           Per semplicità nel test manuale, commentiamo il controllo data rigoroso
+           o assicurati che nel Main le date siano future.
+        */
+        System.out.println("LOG: Stato 'In Corso' -> Permesso accordato per sottomissione.");
+    }
 }

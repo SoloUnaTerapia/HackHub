@@ -1,14 +1,18 @@
 package service;
 import dto.HackathonDTO;
 import model.Hackathon;
+import model.Traccia;
 import model.Utente;
 import repository.HackathonRepository;
+import repository.TracciaRepository;
 
 public class HackathonService {
     private HackathonRepository hackathonRepo;
+    private TracciaRepository tracciaRepo;
 
     // Dependency Injection manuale (Constructor)
-    public HackathonService(HackathonRepository hackathonRepo) {this.hackathonRepo = hackathonRepo;}
+    public HackathonService(HackathonRepository hackathonRepo, TracciaRepository tracciaRepo) {
+        this.hackathonRepo = hackathonRepo; this.tracciaRepo=tracciaRepo;}
 
     public Hackathon creaHackathon(HackathonDTO dati, Utente organizzatore) {
         // Qui potresti validare le date (es. Fine > Inizio)
@@ -52,5 +56,15 @@ public void avanzaStato(Long hackathonId){
         Hackathon h = hackathonRepo.findById(hackathonId).orElseThrow();
         h.setMentore(mentore);
         System.out.println("Service: mentore assegnato.");
+    }
+    public void aggiungiTraccia(Long hackathonId, String titolo, String desc) {
+        Hackathon h = hackathonRepo.findById(hackathonId).orElseThrow();
+
+        // Controllo: le tracce si danno solo prima o durante, non dopo
+        // (Usa lo state pattern o un controllo semplice qui)
+
+        Traccia t = new Traccia(System.nanoTime(), titolo, desc, h);
+        tracciaRepo.save(t);
+        System.out.println("TRACCIA CREATA: " + titolo + " per l'evento " + h.getNome());
     }
 }

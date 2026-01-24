@@ -20,4 +20,9 @@ public class StatoConcluso  implements HackathonState{
     public String getNomeStato() {
         return "concluso";
     }
+
+    @Override
+    public void uploadSottomissione(Hackathon h) {
+        throw new RuntimeException("ERRORE: Non puoi inviare nulla, l'hackathon è concluso!");
+    }
 }

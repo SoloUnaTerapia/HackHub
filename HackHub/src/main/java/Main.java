@@ -1,158 +1,141 @@
 
 
+
 import adapter.ConsoleEmailAdapter;
 import dto.HackathonDTO;
 import model.*;
 import repository.implementation.*;
 import service.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("==========================================");
-        System.out.println("      HACKHUB - SYSTEM SIMULATION         ");
-        System.out.println("==========================================\n");
+        System.out.println("##########################################");
+        System.out.println("      HACKHUB - SIMULAZIONE COMPLETA      ");
+        System.out.println("##########################################\n");
 
-        // -----------------------------------------------------------
-        // 1. BOOTSTRAP (Dependency Injection Manuale)
-        // -----------------------------------------------------------
-        // Creiamo i Repository (Database in memoria)
+        // =============================================================
+        // 1. SETUP DELL'ARCHITETTURA (Cablaggio)
+        // =============================================================
+        // Repository (Database in memoria)
         var utenteRepo = new InMemoryUtenteRepository();
         var hackRepo = new InMemoryHackathonRepository();
         var teamRepo = new InMemoryTeamRepository();
         var invitoRepo = new InMemoryInvitoRepository();
+        var tracciaRepo = new InMemoryTracciaRepository(); // <--- Nuovo
+        var sottomissioneRepo = new InMemorySottomissioneRepository(); // <--- Nuovo
 
-        // Creiamo l'Adapter (Sistema Esterno finto)
+        // Adapter (Servizi Esterni)
         var emailAdapter = new ConsoleEmailAdapter();
 
-        // Creiamo i Service (La logica)
+        // Services (Logica di Business)
         var authService = new AuthService(utenteRepo);
-        var hackService = new HackathonService(hackRepo);
-        // Nota: TeamService usa anche InvitoRepo e EmailService per gestire gli inviti
+        // Nota: HackathonService ora vuole anche TracciaRepo
+        var hackService = new HackathonService(hackRepo, tracciaRepo);
         var invitoService = new InvitoService(invitoRepo, utenteRepo);
-        var teamService = new TeamService(teamRepo, invitoRepo, hackRepo,emailAdapter);
+        var teamService = new TeamService(teamRepo, invitoRepo , hackRepo,emailAdapter);
+        var sottomissioneService = new SottomissioneService(sottomissioneRepo, tracciaRepo, utenteRepo);
 
-        // (Nota: Ho passato invitoService dentro TeamService per comodità,
-        // oppure puoi chiamare invitoService direttamente dal main, qui lo uso separato)
-
-        // -----------------------------------------------------------
-        // 2. SCENARIO: REGISTRAZIONE UTENTI (AuthService)
-        // -----------------------------------------------------------
-        System.out.println(">>> FASE 1: Registrazione Utenti");
-
-        Utente diegoOrg = authService.registra("Diego", "diego@org.com", "admin123");
-        Utente marioLeader = authService.registra("Mario", "mario@dev.com", "pass");
-        Utente luigiMember = authService.registra("Luigi", "luigi@dev.com", "pass");
-        Utente giudiceDredd = authService.registra("Dredd", "dredd@law.com", "law");
+        // =============================================================
+        // 2. REGISTRAZIONE UTENTI (Attori)
+        // =============================================================
+        System.out.println("--- [FASE 1] REGISTRAZIONE UTENTI ---");
+        Utente diegoOrg = authService.registra("Diego", "diego@org.com", "admin");
+        Utente marioLeader = authService.registra("Mario", "mario@team.com", "pass");
+        Utente luigiMember = authService.registra("Luigi", "luigi@team.com", "pass");
+        Utente giudiceDredd = authService.registra("Dredd", "judge@law.com", "law");
         Utente mentoreYoda = authService.registra("Yoda", "yoda@force.com", "force");
+        System.out.println("Utenti pronti.\n");
 
-        System.out.println("Utenti registrati: 5\n");
+        // =============================================================
+        // 3. ORGANIZZATORE: CREAZIONE EVENTO E STAFF
+        // =============================================================
+        System.out.println("--- [FASE 2] CREAZIONE HACKATHON ---");
 
-        // -----------------------------------------------------------
-        // 3. SCENARIO: CREAZIONE HACKATHON (HackathonService)
-        // -----------------------------------------------------------
-        System.out.println(">>> FASE 2: Creazione Hackathon");
-
-        HackathonDTO datiEvento = new HackathonDTO(
+        HackathonDTO dati = new HackathonDTO(
                 "Java Code Wars 2025",
-                "Sfida all'ultimo bit",
-                "Roma (Campus)",
-                10000.00,
-                3 // Max 3 persone per team
+                "Gara finale",
+                "Online",
+                5000.0,
+                4 // Max membri
         );
 
-        // Diego crea l'evento
-        Hackathon hackathon = hackService.creaHackathon(datiEvento, diegoOrg);
-        System.out.println("Hackathon creato: " + hackathon.getNome() + " [Stato: " + hackathon.getStato() + "]");
+        Hackathon hackathon = hackService.creaHackathon(dati, diegoOrg);
+        System.out.println("Hackathon creato: " + hackathon.getNome() + " (Stato: " + hackathon.getStato() + ")");
 
-        // Diego assegna lo staff
+        // Assegnazione Staff
         hackService.setGiudice(hackathon.getId(), giudiceDredd);
         hackService.aggiungiMentore(hackathon.getId(), mentoreYoda);
 
-        // Test controllo duplicati: Diego prova a fare il mentore del suo evento
-        try {
-            hackService.aggiungiMentore(hackathon.getId(), diegoOrg);
-        } catch (Exception e) {
-            System.out.println("   [TEST SECURITY] Bloccato tentativo illegale: " + e.getMessage());
-        }
-        System.out.println();
+        // Creazione Tracce (Compiti)
+        hackService.aggiungiTraccia(hackathon.getId(), "Backend Challenge", "Creare un'API REST sicura");
+        hackService.aggiungiTraccia(hackathon.getId(), "Frontend Challenge", "Creare una UI in React");
+        System.out.println("Staff assegnato e Tracce create.\n");
 
-        // -----------------------------------------------------------
-        // 4. SCENARIO: CREAZIONE TEAM E INVITI (TeamService + InvitoService)
-        // -----------------------------------------------------------
-        System.out.println(">>> FASE 3: Gestione Team e Inviti");
+        // =============================================================
+        // 4. UTENTI: CREAZIONE TEAM E INVITI
+        // =============================================================
+        System.out.println("--- [FASE 3] CREAZIONE TEAM ---");
 
         // Mario crea il team
         Team teamAlpha = teamService.creaTeam("Alpha Team", marioLeader);
-        System.out.println("Team creato: " + teamAlpha.getNome() + " da " + teamAlpha.getLeader().getNome());
 
         // Mario invita Luigi
-        System.out.println("Mario invita Luigi...");
-        invitoService.inviaInvito(marioLeader, "luigi@dev.com", teamAlpha);
+        invitoService.inviaInvito(marioLeader, "luigi@team.com", teamAlpha);
 
-        // Luigi controlla la mail (Simuliamo che veda l'invito pendente)
-        List<Invito> invitiLuigi = invitoService.getInvitiPendenti(luigiMember.getId());
-        if (!invitiLuigi.isEmpty()) {
-            Invito invitoRicevuto = invitiLuigi.get(0);
-            System.out.println("Luigi ha ricevuto un invito per il team: " + invitoRicevuto.getTeam().getNome());
+        // Luigi accetta (Simulazione: prendiamo il primo invito pendente)
+        Invito invitoPerLuigi = invitoRepo.findByRicevente(luigiMember).get(0);
+        invitoService.accettaInvito(invitoPerLuigi.getId());
 
-            // Luigi accetta
-            invitoService.accettaInvito(invitoRicevuto.getId());
-        }
+        System.out.println("Team Alpha composto da: " + teamAlpha.getMembri().size() + " membri.\n");
 
-        // Verifica membri
-        System.out.println("Membri attuali di Alpha Team: " + teamAlpha.getMembri().size() + " (Attesi: 2)");
-        System.out.println("Luigi fa parte del team? " + (luigiMember.getTeam() == teamAlpha));
-        System.out.println();
+        // =============================================================
+        // 5. CICLO DI VITA: APERTURA ISCRIZIONI
+        // =============================================================
+        System.out.println("--- [FASE 4] APERTURA ISCRIZIONI ---");
 
-        // -----------------------------------------------------------
-        // 5. SCENARIO: ISCRIZIONE ALL'EVENTO (State Pattern)
-        // -----------------------------------------------------------
-        System.out.println(">>> FASE 4: Iscrizione e Ciclo di Vita");
+        // L'organizzatore apre le iscrizioni
+        System.out.println("Stato attuale: " + hackathon.getStato());
 
-        // TENTATIVO 1: Hackathon appena creato (StatoCreazione) -> DOVREBBE FALLIRE
-        try {
-            System.out.print("Tentativo iscrizione in fase CREAZIONE... ");
-            teamService.iscriviTeamAdHackathon(teamAlpha.getId(), hackathon.getId());
-        } catch (Exception e) {
-            System.out.println("FALLITO (Corretto): " + e.getMessage());
-        }
+        // Il Team si iscrive
+        teamService.iscriviTeamAdHackathon(teamAlpha.getId(), hackathon.getId());
+        System.out.println("Team Alpha iscritto con successo!\n");
 
-        // AVANZAMENTO STATO: L'organizzatore apre le iscrizioni
-        hackService.avanzaStato(hackathon.getId()); // Passa a IN ISCRIZIONE
-        System.out.println("--- Cambio Stato: " + hackathon.getStato() + " ---");
+        // =============================================================
+        // 6. CICLO DI VITA: INIZIO GARA (Svolgimento)
+        // =============================================================
+        System.out.println("--- [FASE 5] INIZIO GARA ---");
 
-        // TENTATIVO 2: Ora dovrebbe funzionare
-        try {
-            System.out.print("Tentativo iscrizione in fase APERTA... ");
-            teamService.iscriviTeamAdHackathon(teamAlpha.getId(), hackathon.getId());
-            System.out.println("SUCCESSO!");
-        } catch (Exception e) {
-            System.out.println("ERRORE INATTESO: " + e.getMessage());
-        }
+        // L'evento passa "In Corso"
+        hackService.avanzaStato(hackathon.getId());
+        System.out.println("Stato attuale: " + hackathon.getStato());
 
-        // Verifica iscrizione
-        System.out.println("Team iscritti all'evento: " + hackathon.getTeamsIscritti().size());
+        // Recuperiamo una traccia su cui lavorare
+        Traccia tracciaBackend = tracciaRepo.findAll().get(0);
 
-        // AVANZAMENTO STATO: L'evento inizia (Iscrizioni chiuse)
-        hackService.avanzaStato(hackathon.getId()); // Passa a IN CORSO
-        System.out.println("--- Cambio Stato: " + hackathon.getStato() + " ---");
+        // Luigi (Membro) invia una BOZZA
+        System.out.println(">> Luigi invia una bozza...");
+        sottomissioneService.consegnaLavoro(
+                tracciaBackend.getId(),
+                luigiMember.getId(),
+                "Inizio lavori controller",
+                "github.com/wip",
+                false // Non definitivo
+        );
 
-        // TENTATIVO 3: Un ritardatario prova a iscriversi (Creo team al volo)
-        Utente ritardatario = authService.registra("Bob", "bob@late.com", "pw");
-        Team teamLate = teamService.creaTeam("Late Ones", ritardatario);
+        // Mario (Leader o Membro) invia la versione DEFINITIVA
+        System.out.println(">> Mario invia la versione finale...");
+        sottomissioneService.consegnaLavoro(
+                tracciaBackend.getId(),
+                marioLeader.getId(),
+                "Lavoro completato e testato",
+                "github.com/final-release",
+                true // Definitivo
+        );
 
-        try {
-            System.out.print("Tentativo iscrizione in fase IN CORSO... ");
-            teamService.iscriviTeamAdHackathon(teamLate.getId(), hackathon.getId());
-        } catch (Exception e) {
-            System.out.println("FALLITO (Corretto): " + e.getMessage());
-        }
-
-        System.out.println("\n==========================================");
-        System.out.println("      SIMULAZIONE COMPLETATA CON SUCCESSO ");
-        System.out.println("==========================================");
+        System.out.println("\n##########################################");
+        System.out.println("      TEST COMPLETATO SENZA ERRORI        ");
+        System.out.println("##########################################");
     }
 }

@@ -6,4 +6,6 @@ public interface HackathonState {
     void iscriviTeam(Hackathon h, Team t);
     void nextState(Hackathon h);
     String getNomeStato();
+    void uploadSottomissione(Hackathon h);
+
 }

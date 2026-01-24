@@ -22,4 +22,9 @@ public class StatoInIscrizione implements HackathonState {
     public String getNomeStato() {
         return "in iscrizione";
     }
+
+    @Override
+    public void uploadSottomissione(Hackathon h) {
+        throw new RuntimeException("ERRORE: Non puoi inviare nulla, l'hackathon non è ancora iniziato!");
+    }
 }
