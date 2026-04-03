@@ -1,0 +1,768 @@
+{
+  "info": {
+    "_postman_id": "90c0ec4b-a72e-46ac-8c51-633559231595",
+    "name": "HackHub - System Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53738259"
+  },
+  "item": [
+    {
+      "name": "Auth & Utenti",
+      "item": [
+        {
+          "name": "Registra Organizzatore",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nome\": \"Diego\", \"email\": \"diego@org.com\", \"password\": \"pw\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/registrazione",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "registrazione"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registra Giudice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nome\": \"Cristian\", \"email\": \"cristian@law.com\", \"password\": \"pw2\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/registrazione",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "registrazione"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registra Mentore",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nome\": \"Davide\", \"email\": \"davide@mentore.com\", \"password\": \"pw\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/registrazione",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "registrazione"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Leader Team",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nome\": \"Mario\", \"email\": \"mario@team.com\", \"password\": \"pw\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/registrazione",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "registrazione"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Membro Team",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nome\": \"Luigi\", \"email\": \"luigi@team.com\", \"password\": \"pw\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/registrazione",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "registrazione"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lista Utenti",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/utenti/lista",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "utenti",
+                "lista"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Setup Hackathon",
+      "item": [
+        {
+          "name": "Crea Hackathon",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"titolo\": \"Java Spring Challenge\",\r\n    \"regolamento\": \"No IA\",\r\n    \"luogo\": \"Online\",\r\n    \"premio\": 5000.0,\r\n    \"maxTeamSize\": 4,\r\n    \"organizzatoreId\": 1,\r\n    \"scadenzaIscrizioni\": \"2026-12-01T23:59:59\",\r\n    \"dataInizio\": \"2026-12-10T09:00:00\",\r\n    \"dataFine\": \"2026-12-12T18:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/crea",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "crea"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assegna Giudice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/1/giudice/2/by/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "1",
+                "giudice",
+                "2",
+                "by",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assegna Mentore",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/1/mentore/3/by/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "1",
+                "mentore",
+                "3",
+                "by",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crea Traccia",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"hackathonId\": 1, \"titolo\": \"Backend API\", \"descrizione\": \"Crea un REST server\", \"creatoreId\": 1 }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/lavori/crea-traccia",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "lavori",
+                "crea-traccia"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Catalogo Hackathon",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/pubblici",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "pubblici"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestione Team",
+      "item": [
+        {
+          "name": "Crea Team",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nomeTeam\": \"Unicam\", \"leaderId\": 4 }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/teams/crea",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teams",
+                "crea"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Aggiungi Membro al Team",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"teamId\": 1, \"utenteId\": 5 }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/teams/aggiungi-membro",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teams",
+                "aggiungi-membro"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "State",
+      "item": [
+        {
+          "name": "Iscrizione Bloccata (Hackathon in Creazione)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"teamId\": 1, \"hackathonId\": 1, \"utenteId\": 4 }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/teams/iscrivi",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teams",
+                "iscrivi"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apri Iscrizioni",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/1/apriIscrizioni/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "1",
+                "apriIscrizioni",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Iscrivi Team",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"teamId\": 1, \"hackathonId\": 1, \"utenteId\": 4 }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/teams/iscrivi",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teams",
+                "iscrivi"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Avvia Hackathon",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/1/avviaHackathon/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "1",
+                "avviaHackathon",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sottomissioni e Supporto",
+      "item": [
+        {
+          "name": "Chiedi Supporto al Mentore",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/supporto/chiedi?teamId=1&mentoreId=3&hackathonId=1&msg=Aiuto con Spring!",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "supporto",
+                "chiedi"
+              ],
+              "query": [
+                {
+                  "key": "teamId",
+                  "value": "1"
+                },
+                {
+                  "key": "mentoreId",
+                  "value": "3"
+                },
+                {
+                  "key": "hackathonId",
+                  "value": "1"
+                },
+                {
+                  "key": "msg",
+                  "value": "Aiuto con Spring!"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fissa Call",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"richiestaId\": 1,\r\n    \"mentoreId\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/supporto/fissa-call",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "supporto",
+                "fissa-call"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invia Sottomissione",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"tracciaId\": 1,\r\n    \"utenteId\": 5,\r\n    \"testoSoluzione\": \"Ecco il nostro codice!\",\r\n    \"urlProgetto\": \"github.com/ipirati\",\r\n    \"definitiva\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/lavori/invia-sottomissione",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "lavori",
+                "invia-sottomissione"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Giudizio e Pagamento",
+      "item": [
+        {
+          "name": "Concludi Evento",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/1/inValutazione/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "1",
+                "inValutazione",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Visualizza Sottomissioni",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lavori/hackathon/1/giudice/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "lavori",
+                "hackathon",
+                "1",
+                "giudice",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Giudice Vota",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"sottomissioneId\": 1, \"giudiceId\": 2, \"punteggio\": 10, \"giudizio\": \"Perfetto!\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/valutazioni/vota",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "valutazioni",
+                "vota"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Segnala Violazione",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/segnalazioni/crea?mentoreId=3&teamId=1&hackId=1&msg=Hanno usato ChatGPT",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "segnalazioni",
+                "crea"
+              ],
+              "query": [
+                {
+                  "key": "mentoreId",
+                  "value": "3"
+                },
+                {
+                  "key": "teamId",
+                  "value": "1"
+                },
+                {
+                  "key": "hackId",
+                  "value": "1"
+                },
+                {
+                  "key": "msg",
+                  "value": "Hanno usato ChatGPT"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Proclama Vincitore",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/hackathons/1/proclamaVincitore/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "hackathons",
+                "1",
+                "proclamaVincitore",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Abbandona Team Copy",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/teams/abbandona/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teams",
+                "abbandona",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
